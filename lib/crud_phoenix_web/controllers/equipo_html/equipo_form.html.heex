@@ -1,0 +1,30 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:equipo]} type="text" label="Equipo" />
+  <.input field={f[:ref]} type="text" label="Ref" />
+  <.input field={f[:nodo]} type="text" label="Nodo" />
+  <.input field={f[:punto]} type="text" label="Punto" />
+  <.input field={f[:tipo]} type="text" label="Tipo" />
+  <.input field={f[:ip_address]} type="text" label="Dirección IP" />
+  <.input field={f[:usuario]} type="text" label="Usuario" />
+  <.input field={f[:password]} type="text" label="Password" />
+
+  <!-- Dropdown para Estado -->
+  <div>
+    <label for="estado">Estado</label>
+    <select id="estado" name="equipo[estado]">
+      <option value="">Selecciona el estado</option>
+      <option value="true" selected={f[:estado].value == true}>Bueno</option>
+      <option value="false" selected={f[:estado].value == false}>Malo</option>
+    </select>
+  </div>
+
+  <:actions>
+    <.button>Save Equipo</.button>
+  </:actions>
+</.simple_form>
+
+
+

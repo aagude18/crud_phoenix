@@ -1,0 +1,31 @@
+<.header>
+  Listing Equipos
+  <:actions>
+    <.link href={~p"/equipos/new"}>
+      <.button>New Equipo</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="equipos" rows={@equipos} row_click={&JS.navigate(~p"/equipos/#{&1}")}>
+  <:col :let={equipo} label="Equipo"><%= equipo.equipo %></:col>
+  <:col :let={equipo} label="Ref"><%= equipo.ref %></:col>
+  <:col :let={equipo} label="Nodo"><%= equipo.nodo %></:col>
+  <:col :let={equipo} label="Punto"><%= equipo.punto %></:col>
+  <:col :let={equipo} label="Tipo"><%= equipo.tipo %></:col>
+  <:col :let={equipo} label="Ip address"><%= equipo.ip_address %></:col>
+  <:col :let={equipo} label="Usuario"><%= equipo.usuario %></:col>
+  <:col :let={equipo} label="Password"><%= equipo.password %></:col>
+  <:col :let={equipo} label="Estado"><%= equipo.estado %></:col>
+  <:action :let={equipo}>
+    <div class="sr-only">
+      <.link navigate={~p"/equipos/#{equipo}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/equipos/#{equipo}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={equipo}>
+    <.link href={~p"/equipos/#{equipo}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

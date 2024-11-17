@@ -1,0 +1,23 @@
+<.header>
+  Equipo <%= @equipo.id %>
+  <:subtitle>This is a equipo record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/equipos/#{@equipo}/edit"}>
+      <.button>Edit equipo</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Equipo"><%= @equipo.equipo %></:item>
+  <:item title="Ref"><%= @equipo.ref %></:item>
+  <:item title="Nodo"><%= @equipo.nodo %></:item>
+  <:item title="Punto"><%= @equipo.punto %></:item>
+  <:item title="Tipo"><%= @equipo.tipo %></:item>
+  <:item title="Ip address"><%= @equipo.ip_address %></:item>
+  <:item title="Usuario"><%= @equipo.usuario %></:item>
+  <:item title="Password"><%= @equipo.password %></:item>
+  <:item title="Estado"><%= @equipo.estado %></:item>
+</.list>
+
+<.back navigate={~p"/equipos"}>Back to equipos</.back>
