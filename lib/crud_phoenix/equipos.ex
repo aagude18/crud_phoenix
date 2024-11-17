@@ -5,20 +5,33 @@ defmodule CrudPhoenix.Equipos do
 
   import Ecto.Query, warn: false
   alias CrudPhoenix.Repo
-
   alias CrudPhoenix.Equipos.Equipo
 
   @doc """
-  Returns the list of equipos.
+  Returns the list of equipos with pagination.
 
   ## Examples
 
-      iex> list_equipos()
-      [%Equipo{}, ...]
+      iex> list_equipos(%{"page" => 1})
+      %Scrivener.Page{entries: [%Equipo{}, ...], page_number: 1, ...}
 
   """
-  def list_equipos do
-    Repo.all(Equipo)
+  def list_equipos(params \\ %{}) do
+    alias CrudPhoenix.Equipos.Equipo
+  
+    query = from e in Equipo
+    Repo.paginate(query, params)
+  end
+  
+  # Convierte un enlace estándar de Google Drive al formato directo
+  def convertir_enlace_drive(enlace) do
+    case Regex.run(~r{/file/d/(.+)/}, enlace) do
+      [_, id] ->
+        "https://drive.google.com/uc?id=#{id}" # Enlace directo
+
+      _ ->
+        enlace # Si no es un enlace de Google Drive, se devuelve tal cual
+    end
   end
 
   @doc """

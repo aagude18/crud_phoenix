@@ -4,9 +4,9 @@ defmodule CrudPhoenixWeb.EquipoController do
   alias CrudPhoenix.Equipos
   alias CrudPhoenix.Equipos.Equipo
 
-  def index(conn, _params) do
-    equipos = Equipos.list_equipos()
-    render(conn, :index, equipos: equipos)
+  def index(conn, params) do
+    equipos = Equipos.list_equipos(params)
+    render(conn, :index, conn: conn, equipos: equipos)
   end
 
   def new(conn, _params) do

@@ -13,6 +13,7 @@ defmodule CrudPhoenix.Equipos.Equipo do
     field :password, :string
     field :estado, :boolean, default: false # Estado predeterminado a falso ("malo")
     field :foto, :string # Campo para la foto
+    timestamps()
   end
 
   def changeset(equipo, attrs) do
@@ -21,4 +22,5 @@ defmodule CrudPhoenix.Equipos.Equipo do
     |> validate_required([:equipo, :ref, :nodo, :punto, :tipo]) # Solo estos campos son obligatorios
     |> validate_format(:ip_address, ~r/^(\d{1,3}\.){3}\d{1,3}$/, message: "Debe ser una dirección IP válida", allow_nil: true, allow_blank: true) # Permite IP vacía o nula
   end
+
 end

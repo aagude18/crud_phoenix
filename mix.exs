@@ -37,6 +37,7 @@ defmodule CrudPhoenix.MixProject do
       {:ecto_sql, "~> 3.10"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 4.1"},
+      {:phoenix_html_helpers, "~> 1.0"}, # Compatibilidad con Phoenix.HTML 4.x
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       # TODO bump on release to {:phoenix_live_view, "~> 1.0.0"},
       {:phoenix_live_view, "~> 1.0.0-rc.1", override: true},
@@ -58,7 +59,8 @@ defmodule CrudPhoenix.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      {:scrivener_ecto, "~> 2.7"}, # Para la lógica de paginación
     ]
   end
 

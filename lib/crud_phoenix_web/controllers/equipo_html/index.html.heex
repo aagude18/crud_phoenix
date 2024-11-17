@@ -7,7 +7,7 @@
   </:actions>
 </.header>
 
-<.table id="equipos" rows={@equipos} row_click={&JS.navigate(~p"/equipos/#{&1}")}>
+<.table id="equipos" rows={@equipos.entries}>
   <:col :let={equipo} label="Equipo"><%= equipo.equipo %></:col>
   <:col :let={equipo} label="Ref"><%= equipo.ref %></:col>
   <:col :let={equipo} label="Nodo"><%= equipo.nodo %></:col>
@@ -16,7 +16,24 @@
   <:col :let={equipo} label="Ip address"><%= equipo.ip_address %></:col>
   <:col :let={equipo} label="Usuario"><%= equipo.usuario %></:col>
   <:col :let={equipo} label="Password"><%= equipo.password %></:col>
-  <:col :let={equipo} label="Estado"><%= equipo.estado %></:col>
+  <:col :let={equipo} label="Estado">
+  <%= if equipo.estado do %>
+    <span class="text-green-600 font-semibold">Bueno</span>
+  <% else %>
+    <span class="text-red-600 font-semibold">Malo</span>
+  <% end %>
+</:col>
+  <:col :let={equipo} label="Foto">
+  <%= if equipo.foto do %>
+    <a href={equipo.foto} target="_blank">
+      <button class="px-2 py-1 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+        Link
+      </button>
+    </a>
+  <% else %>
+    <span class="text-gray-500">No disponible</span>
+  <% end %>
+</:col>
   <:action :let={equipo}>
     <div class="sr-only">
       <.link navigate={~p"/equipos/#{equipo}"}>Show</.link>
@@ -29,3 +46,9 @@
     </.link>
   </:action>
 </.table>
+
+
+<!-- Controles de paginación -->
+<div class="pagination">
+  <%= CrudPhoenixWeb.PaginationHelper.pagination_links(@conn, @equipos) %>
+</div>
