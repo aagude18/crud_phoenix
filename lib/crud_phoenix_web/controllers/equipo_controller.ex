@@ -1,13 +1,17 @@
 defmodule CrudPhoenixWeb.EquipoController do
   use CrudPhoenixWeb, :controller
 
+  alias CrudPhoenix.Repo
   alias CrudPhoenix.Equipos
   alias CrudPhoenix.Equipos.Equipo
 
-  def index(conn, params) do
-    equipos = Equipos.list_equipos(params)
-    render(conn, :index, conn: conn, equipos: equipos)
-  end
+def index(conn, _params) do
+  equipos = Repo.all(Equipo)
+
+  conn
+  |> assign(:equipos, equipos)
+  |> render("index.html")
+end
 
   def new(conn, _params) do
     changeset = Equipos.change_equipo(%Equipo{})

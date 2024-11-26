@@ -1,3 +1,5 @@
+alias CrudPhoenixWeb.Router.Helpers, as: Routes
+
 defmodule CrudPhoenixWeb.PaginationHelper do
   import Phoenix.HTML
 
