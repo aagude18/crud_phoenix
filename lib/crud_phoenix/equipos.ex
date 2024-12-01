@@ -8,19 +8,16 @@ defmodule CrudPhoenix.Equipos do
   alias CrudPhoenix.Equipos.Equipo
 
   @doc """
-  Returns the list of equipos with pagination.
+  Returns the list of equipos.
 
   ## Examples
 
-      iex> list_equipos(%{"page" => 1})
-      %Scrivener.Page{entries: [%Equipo{}, ...], page_number: 1, ...}
+      iex> list_equipos()
+      [%Equipo{}, ...]
 
   """
-  def list_equipos(params \\ %{}) do
-    alias CrudPhoenix.Equipos.Equipo
-  
-    query = from e in Equipo
-    Repo.paginate(query, params)
+  def list_equipos(_params \\ %{}) do
+    Repo.all(Equipo)
   end
   
   # Convierte un enlace estándar de Google Drive al formato directo

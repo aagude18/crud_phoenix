@@ -13,12 +13,13 @@ defmodule CrudPhoenixWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
   end
-
+  
   scope "/", CrudPhoenixWeb do
     pipe_through :browser
 
     get "/", PageController, :home
     resources "/equipos", EquipoController
+    get "/equipos/all", EquipoController, :all # Nueva ruta para consultar todos los equipos
   end
 
   # Other scopes may use custom stacks.

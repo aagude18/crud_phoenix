@@ -7,42 +7,66 @@
   </:actions>
 </.header>
 
-<.table id="equipos" rows={@equipos}>
-  <:col :let={equipo} label="Equipo"><%= equipo.equipo %></:col>
-  <:col :let={equipo} label="Ref"><%= equipo.ref %></:col>
-  <:col :let={equipo} label="Nodo"><%= equipo.nodo %></:col>
-  <:col :let={equipo} label="Punto"><%= equipo.punto %></:col>
-  <:col :let={equipo} label="Tipo"><%= equipo.tipo %></:col>
-  <:col :let={equipo} label="Ip address"><%= equipo.ip_address %></:col>
-  <:col :let={equipo} label="Usuario"><%= equipo.usuario %></:col>
-  <:col :let={equipo} label="Password"><%= equipo.password %></:col>
-  <:col :let={equipo} label="Estado">
-    <%= if equipo.estado do %>
-      <span class="text-green-600 font-semibold">Bueno</span>
-    <% else %>
-      <span class="text-red-600 font-semibold">Malo</span>
-    <% end %>
-  </:col>
-  <:col :let={equipo} label="Foto">
-    <%= if equipo.foto do %>
-      <a href={equipo.foto} target="_blank">
-        <button class="px-2 py-1 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
-          Link
-        </button>
-      </a>
-    <% else %>
-      <span class="text-gray-500">No disponible</span>
-    <% end %>
-  </:col>
-  <:action :let={equipo}>
-    <div class="sr-only">
-      <.link navigate={~p"/equipos/#{equipo}"}>Show</.link>
-    </div>
-    <.link navigate={~p"/equipos/#{equipo}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={equipo}>
-    <.link href={~p"/equipos/#{equipo}"} method="delete" data-confirm="Are you sure?">
-      Delete
-    </.link>
-  </:action>
-</.table>
+<div>
+  <form action={~p"/equipos"} method="get">
+    <input
+      type="text"
+      name="search[nodo]"
+      placeholder="Buscar por Nodo"
+      value={@nodo || ""}
+      class="border border-gray-300 rounded-md px-2 py-1"
+    />
+    <input
+      type="text"
+      name="search[tipo]"
+      placeholder="Buscar por Tipo"
+      value={@tipo || ""}
+      class="border border-gray-300 rounded-md px-2 py-1 ml-2"
+    />
+    <button type="submit" class="ml-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+      Buscar
+    </button>
+  </form>
+</div>
+
+
+<%= if Enum.empty?(@equipos) do %>
+  <p class="text-gray-500 mt-4">No se encontraron equipos. Realiza una búsqueda para ver resultados.</p>
+<% else %>
+  <.table id="equipos" rows={@equipos}>
+    <:col :let={equipo} label="Equipo"><%= equipo.equipo %></:col>
+    <:col :let={equipo} label="Ref"><%= equipo.ref %></:col>
+    <:col :let={equipo} label="Nodo"><%= equipo.nodo %></:col>
+    <:col :let={equipo} label="Punto"><%= equipo.punto %></:col>
+    <:col :let={equipo} label="Tipo"><%= equipo.tipo %></:col>
+    <:col :let={equipo} label="IP Address"><%= equipo.ip_address %></:col>
+    <:col :let={equipo} label="Usuario"><%= equipo.usuario %></:col>
+    <:col :let={equipo} label="Password"><%= equipo.password %></:col>
+    <:col :let={equipo} label="Estado">
+      <%= if equipo.estado do %>
+        <span class="text-green-600 font-semibold">Bueno</span>
+      <% else %>
+        <span class="text-red-600 font-semibold">Malo</span>
+      <% end %>
+    </:col>
+    <:col :let={equipo} label="Foto">
+      <%= if equipo.foto do %>
+        <a href={equipo.foto} target="_blank">
+          <button class="px-2 py-1 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+            Ver Foto
+          </button>
+        </a>
+      <% else %>
+        <span class="text-gray-500">No disponible</span>
+      <% end %>
+    </:col>
+    <:action :let={equipo}>
+      <.link navigate={~p"/equipos/#{equipo}/edit"}>Edit</.link>
+    </:action>
+    <:action :let={equipo}>
+      <.link href={~p"/equipos/#{equipo}"} method="delete" data-confirm="Are you sure?">
+        Delete
+      </.link>
+    </:action>
+  </.table>
+<% end %>

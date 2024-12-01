@@ -110,3 +110,25 @@ msgstr ""
 
 msgid "must be equal to %{number}"
 msgstr ""
+
+## Custom messages
+msgid "close"
+msgstr "Close"
+
+msgid "Success!"
+msgstr "Success!"
+
+msgid "Error!"
+msgstr "Error!"
+
+msgid "We can't find the internet"
+msgstr "We can't find the internet"
+
+msgid "Attempting to reconnect"
+msgstr "Attempting to reconnect"
+
+msgid "Something went wrong!"
+msgstr "Something went wrong!"
+
+msgid "Hang in there while we get back on track"
+msgstr "Hang in there while we get back on track"

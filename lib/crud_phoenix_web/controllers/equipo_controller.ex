@@ -1,66 +1,53 @@
 defmodule CrudPhoenixWeb.EquipoController do
   use CrudPhoenixWeb, :controller
+  import Ecto.Query, only: [from: 2, dynamic: 2]
 
   alias CrudPhoenix.Repo
-  alias CrudPhoenix.Equipos
   alias CrudPhoenix.Equipos.Equipo
 
-def index(conn, _params) do
-  equipos = Repo.all(Equipo)
-
-  conn
-  |> assign(:equipos, equipos)
-  |> render("index.html")
-end
-
-  def new(conn, _params) do
-    changeset = Equipos.change_equipo(%Equipo{})
-    render(conn, :new, changeset: changeset)
+  # Acción para mostrar todos los equipos
+  def all(conn, _params) do
+    equipos = Repo.all(Equipo)
+    render(conn, "index.html", equipos: equipos, nodo: nil, tipo: nil)
   end
 
-  def create(conn, %{"equipo" => equipo_params}) do
-    case Equipos.create_equipo(equipo_params) do
-      {:ok, equipo} ->
-        conn
-        |> put_flash(:info, "Equipo created successfully.")
-        |> redirect(to: ~p"/equipos/#{equipo}")
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
-    end
+  def show(conn, %{"id" => id}) when id != "all" do
+    equipo = Repo.get!(Equipo, id)
+    render(conn, "show.html", equipo: equipo)
   end
 
-  def show(conn, %{"id" => id}) do
-    equipo = Equipos.get_equipo!(id)
-    render(conn, :show, equipo: equipo)
+  # Ruta especial para "all"
+  def show(conn, %{"id" => "all"}) do
+    all(conn, %{})
   end
 
-  def edit(conn, %{"id" => id}) do
-    equipo = Equipos.get_equipo!(id)
-    changeset = Equipos.change_equipo(equipo)
-    render(conn, :edit, equipo: equipo, changeset: changeset)
+  # Acción para manejar búsqueda por nodo y tipo
+  def index(conn, %{"search" => search_params}) do
+    nodo = Map.get(search_params, "nodo", nil)
+    tipo = Map.get(search_params, "tipo", nil)
+
+    # Construye las condiciones dinámicas
+    dynamic_conditions =
+      true
+      |> add_nodo_condition(nodo)
+      |> add_tipo_condition(tipo)
+
+    query = from(e in Equipo, where: ^dynamic_conditions)
+
+    equipos = Repo.all(query)
+    render(conn, "index.html", equipos: equipos, nodo: nodo, tipo: tipo)
   end
 
-  def update(conn, %{"id" => id, "equipo" => equipo_params}) do
-    equipo = Equipos.get_equipo!(id)
-
-    case Equipos.update_equipo(equipo, equipo_params) do
-      {:ok, equipo} ->
-        conn
-        |> put_flash(:info, "Equipo updated successfully.")
-        |> redirect(to: ~p"/equipos/#{equipo}")
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :edit, equipo: equipo, changeset: changeset)
-    end
+  # Tabla vacía al inicio
+  def index(conn, _params) do
+    render(conn, "index.html", equipos: [], nodo: nil, tipo: nil)
   end
 
-  def delete(conn, %{"id" => id}) do
-    equipo = Equipos.get_equipo!(id)
-    {:ok, _equipo} = Equipos.delete_equipo(equipo)
+  # Función auxiliar para añadir condición de nodo
+  defp add_nodo_condition(dynamic, nil), do: dynamic
+  defp add_nodo_condition(dynamic, nodo), do: dynamic([e], ^dynamic and ilike(e.nodo, ^"%#{nodo}%"))
 
-    conn
-    |> put_flash(:info, "Equipo deleted successfully.")
-    |> redirect(to: ~p"/equipos")
-  end
+  # Función auxiliar para añadir condición de tipo
+  defp add_tipo_condition(dynamic, nil), do: dynamic
+  defp add_tipo_condition(dynamic, tipo), do: dynamic([e], ^dynamic and ilike(e.tipo, ^"%#{tipo}%"))
 end
