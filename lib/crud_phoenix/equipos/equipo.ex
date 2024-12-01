@@ -3,6 +3,7 @@ defmodule CrudPhoenix.Equipos.Equipo do
   import Ecto.Changeset
 
   schema "equipos" do
+    field :name, :string                      # Nuevo campo para el nombre
     field :equipo, :string
     field :ref, :string
     field :nodo, :string
@@ -11,16 +12,42 @@ defmodule CrudPhoenix.Equipos.Equipo do
     field :ip_address, :string
     field :usuario, :string
     field :password, :string
-    field :estado, :boolean, default: false # Estado predeterminado a falso ("malo")
-    field :foto, :string # Campo para la foto
+    field :estado, :boolean, default: false  # Estado predeterminado a falso ("malo")
+    field :foto, :string                     # Campo para la foto
     timestamps()
   end
 
+  # Changeset para validaciones
   def changeset(equipo, attrs) do
     equipo
-    |> cast(attrs, [:equipo, :ref, :nodo, :punto, :tipo, :ip_address, :usuario, :password, :estado, :foto])
-    |> validate_required([:equipo, :ref, :nodo, :punto, :tipo]) # Solo estos campos son obligatorios
-    |> validate_format(:ip_address, ~r/^(\d{1,3}\.){3}\d{1,3}$/, message: "Debe ser una dirección IP válida", allow_nil: true, allow_blank: true) # Permite IP vacía o nula
+    |> cast(attrs, [
+      :name,
+      :equipo,
+      :ref,
+      :nodo,
+      :punto,
+      :tipo,
+      :ip_address,
+      :usuario,
+      :password,
+      :estado,
+      :foto
+    ])                                       # Asegúrate de incluir todas las claves relevantes
+    |> validate_required([
+      :name,
+      :equipo,
+      :ref,
+      :nodo,
+      :punto,
+      :tipo
+    ])                                       # Valida que estos campos sean obligatorios
+    |> validate_length(:name, min: 3, max: 50, message: "El nombre debe tener entre 3 y 50 caracteres")
+    |> validate_format(
+      :ip_address,
+      ~r/^(\\d{1,3}\\.){3}\\d{1,3}$/,
+      message: "Debe ser una dirección IP válida",
+      allow_nil: true
+    )                                        # Valida el formato de IP, permitiendo valores nulos
   end
-
 end
+

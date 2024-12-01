@@ -1,8 +1,89 @@
-<.header>
-  Edit Equipo <%= @equipo.id %>
-  <:subtitle>Use this form to manage equipo records in your database.</:subtitle>
-</.header>
+<h1 class="text-center">Editar Equipo</h1>
 
-<.equipo_form changeset={@changeset} action={~p"/equipos/#{@equipo}"} />
+<div class="space-y-12 divide-y">
+  <!-- Formulario para editar un equipo -->
+  <.simple_form :let={f} for={@changeset} action={@action} id="edit_equipo_form">
+    <!-- Mensaje de error general -->
+    <.error :if={@changeset.action}>
+      Ocurrió un error. Por favor, revisa los campos indicados abajo.
+    </.error>
 
-<.back navigate={~p"/equipos"}>Back to equipos</.back>
+    <!-- Campo para el nombre del equipo -->
+    <.input 
+      field={f[:name]} 
+      type="text" 
+      label="Nombre del Equipo" 
+      required 
+      value={@changeset.data.name || ""} 
+    />
+
+    <!-- Campo para la referencia -->
+    <.input 
+      field={f[:ref]} 
+      type="text" 
+      label="Referencia" 
+      value={@changeset.data.ref || ""} 
+    />
+
+    <!-- Campo para el nodo -->
+    <.input 
+      field={f[:nodo]} 
+      type="text" 
+      label="Nodo" 
+      value={@changeset.data.nodo || ""} 
+    />
+
+    <!-- Campo para el punto -->
+    <.input 
+      field={f[:punto]} 
+      type="text" 
+      label="Punto" 
+      value={@changeset.data.punto || ""} 
+    />
+
+    <!-- Campo para el tipo -->
+    <.input 
+      field={f[:tipo]} 
+      type="text" 
+      label="Tipo" 
+      value={@changeset.data.tipo || ""} 
+    />
+
+    <!-- Campo para la dirección IP -->
+    <.input 
+      field={f[:ip_address]} 
+      type="text" 
+      label="Dirección IP" 
+      value={@changeset.data.ip_address || ""} 
+    />
+
+    <!-- Campo para el usuario -->
+    <.input 
+      field={f[:usuario]} 
+      type="text" 
+      label="Usuario" 
+      value={@changeset.data.usuario || ""} 
+    />
+
+    <!-- Campo para la contraseña -->
+    <.input 
+      field={f[:password]} 
+      type="password" 
+      label="Contraseña" 
+      value={@changeset.data.password || ""} 
+    />
+
+    <!-- Campo para el estado (checkbox) -->
+    <.input 
+      field={f[:estado]} 
+      type="checkbox" 
+      label="Activo"
+      checked={@changeset.data.estado}
+    />
+
+    <!-- Botón para enviar el formulario -->
+    <:actions>
+      <.button phx-disable-with="Guardando...">Actualizar Equipo</.button>
+    </:actions>
+  </.simple_form>
+</div>

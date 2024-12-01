@@ -29,7 +29,6 @@
   </form>
 </div>
 
-
 <%= if Enum.empty?(@equipos) do %>
   <p class="text-gray-500 mt-4">No se encontraron equipos. Realiza una búsqueda para ver resultados.</p>
 <% else %>
@@ -64,7 +63,12 @@
       <.link navigate={~p"/equipos/#{equipo}/edit"}>Edit</.link>
     </:action>
     <:action :let={equipo}>
-      <.link href={~p"/equipos/#{equipo}"} method="delete" data-confirm="Are you sure?">
+      <.link
+        href={~p"/equipos/#{equipo}"}
+        method="delete"
+        data-confirm="¿Estás seguro de que deseas eliminar este equipo?"
+        class="text-red-500 hover:text-red-700 font-semibold"
+      >
         Delete
       </.link>
     </:action>
